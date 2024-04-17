@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { prisma } from "../database";
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import jwtConfig from '../config/auth';
+import authConfig from '../config/auth';
 
 export default class SessionController {
     async create(request: Request, response: Response) {
@@ -23,7 +23,7 @@ export default class SessionController {
                 return response.status(401).json({ message: "Email e/ou senha invalidos!" });
             }
 
-            const { secret, expiresIn } = jwtConfig.jwt;
+            const { secret, expiresIn } = authConfig.jwt;
 
             const token = sign({}, secret, {
                 subject: String(user.id),

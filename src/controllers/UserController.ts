@@ -2,10 +2,14 @@ import { Request, Response } from "express";
 import { prisma } from "../database";
 import { hash } from 'bcryptjs';
 
+interface userId extends Request {
+    user?: Request & { id: number }
+}
+
 
 export default class UserController {
-    async index(request: Request, response: Response) {
-        const { id } = request.params;
+    async index(request: userId, response: Response) {
+        const { id } = request.user;
 
         try {
             const user = await prisma.user.findUnique({ where: { id: Number(id) } });
@@ -30,7 +34,7 @@ export default class UserController {
 
             const user = await prisma.user.create({ data: { email, password: hashedPassword } });
 
-            return response.status(201).json({message: "Usuario criado com sucesso!", user});
+            return response.status(201).json({ message: "Usuario criado com sucesso!", user });
         } catch (error) {
             return response.status(500).json({ message: error.message });
         }
