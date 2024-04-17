@@ -26,16 +26,15 @@ export default class AlunoController {
     }
 
     async create(request: Request, response: Response) {
-        const { nome, matricula, email, curso } = request.body;
+        const { nome, matricula, curso } = request.body;
 
-        if (!nome || !matricula || !email || !curso) return response.status(401).json({ message: "nome, matricula, email e curso são obrigratorios!" });
+        if (!nome || !matricula || !curso) return response.status(401).json({ message: "nome, matricula e curso são obrigratorios!" });
 
         try {
             const aluno = await prisma.aluno.create({
                 data: {
                     nome,
                     matricula,
-                    email,
                     curso
                 }
             });

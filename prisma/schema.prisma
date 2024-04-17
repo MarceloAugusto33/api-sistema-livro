@@ -7,11 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+}
+
 model Aluno {
   id         Int          @id @default(autoincrement())
   nome       String
   matricula  String       @unique
-  email      String       @unique
   curso      String
   Emprestimo Emprestimo[]
 
